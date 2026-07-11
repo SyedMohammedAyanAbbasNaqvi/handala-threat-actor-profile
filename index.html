@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiskProfiler IntelSuite | Threat Actor Profile: Handala (Void Manticore)</title>
+    <!-- Google Fonts: Outfit, Inter & Fira Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">RP</div>
+                <div class="logo-text">RiskProfiler</div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-item active" data-tab="dashboard">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Overview & Summary</span>
+                </div>
+                <div class="nav-item" data-tab="attribution">
+                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>Attribution & ACH</span>
+                </div>
+                <div class="nav-item" data-tab="workflow">
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>Operational Workflow</span>
+                </div>
+                <div class="nav-item" data-tab="mitre">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+                    <span>MITRE ATT&CK Map</span>
+                </div>
+                <div class="nav-item" data-tab="diamond">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+                    <span>Diamond Model</span>
+                </div>
+                <div class="nav-item" data-tab="incidents">
+                    <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span>Incident Analysis</span>
+                </div>
+                <div class="nav-item" data-tab="iocs">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <span>IOC Database</span>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="tlp-badge" id="sidebar-tlp">
+                    <div style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--tlp-amber);"></div>
+                    <span>TLP:AMBER</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- MAIN CONTENT PANEL -->
+        <main class="main-content">
+            
+            <!-- HEADER BAR -->
+            <header class="top-header">
+                <div class="header-title-area">
+                    <div class="print-only-page-header">
+                        <span>RiskProfiler Threat Intelligence Team Pre-Hire Practical Assessment</span>
+                        <span>TLP:AMBER // CONFIDENTIAL</span>
+                    </div>
+                    <h1 id="main-report-title">Threat-Actor Profile: Handala</h1>
+                    <div class="header-meta">
+                        <span>ID: <strong>RP-2026-0619-Handala</strong></span>
+                        <span class="meta-badge">Report Date: June 19, 2026</span>
+                        <span class="meta-badge">Target: Void Manticore / Storm-0842</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="btn-roe-checklist">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        ROE Status: Compliant
+                    </button>
+                    <button class="btn btn-primary" id="btn-export-pdf">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Export PDF Briefing
+                    </button>
+                </div>
+            </header>
+            
+            <!-- ==========================================
+                 VIEW 1: OVERVIEW / DASHBOARD
+                 ========================================== -->
+            <section id="panel-dashboard" class="view-panel active">
+                <div class="dashboard-grid">
+                    <!-- Gauge Card -->
+                    <div class="card">
+                        <div class="card-title-bar">
+                            <h3>Persona Authenticity</h3>
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--text-muted)" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                        </div>
+                        <div class="card-content confidence-container">
+                            <div class="confidence-gauge">
+                                <div class="gauge-body"></div>
+                                <div class="gauge-fill" id="dashboard-gauge-fill"></div>
+                                <div class="gauge-mask">
+                                    <span class="gauge-label" id="dashboard-gauge-verdict">STATE FRONT</span>
+                                    <span class="gauge-subtext">Confidence: High</span>
+                                </div>
+                            </div>
+                            <div class="confidence-verdict">
+                                <div class="verdict-title" style="color: var(--accent-crimson);">12% Hacktivist Authenticity</div>
+                                <p class="verdict-desc">Assessed with high confidence as an Iranian MOIS false-flag operation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Card -->
+                    <div class="card">
+                        <div class="card-title-bar">
+                            <h3>Key Profile Highlights</h3>
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--text-muted)" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        </div>
+                        <div class="card-content stats-list">
+                            <div class="stat-item">
+                                <span class="stat-key">Associated Aliases</span>
+                                <span class="stat-val">Void Manticore, Storm-0842, Banished Kitten</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-key">Primary Target Country</span>
+                                <span class="stat-val highlight-red">Israel (Govt, Infra, Private)</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-key">Operational Mandate</span>
+                                <span class="stat-val highlight-red">Destruction & Psychological Ops</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-key">Wiper Capabilities</span>
+                                <span class="stat-val highlight-yellow">BiBi, Cl, Hamsa, Intune LOTL API</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Safety / ROE Card -->
+                    <div class="card">
+                        <div class="card-title-bar">
+                            <h3>Rules of Engagement Compliance</h3>
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--text-muted)" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="card-content roe-list">
+                            <div class="roe-item">
+                                <div class="roe-checkbox">✓</div>
+                                <span><strong>Passive Collection Only:</strong> No direct communication or transaction with Handala accounts/bots.</span>
+                            </div>
+                            <div class="roe-item">
+                                <div class="roe-checkbox">✓</div>
+                                <span><strong>Zero Victim Data Downloaded:</strong> Leaked datasets were not accessed, stored, or distributed.</span>
+                            </div>
+                            <div class="roe-item">
+                                <div class="roe-checkbox">✓</div>
+                                <span><strong>Defanged Observables:</strong> All URLs, IPs, and hashes are fully defanged for tracking.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card report-section">
+                    <h2>Executive Summary & Bottom Line</h2>
+                    <div class="text-block">
+                        <p><strong>ANALYSIS BOTTOM LINE:</strong> We assess with <strong>HIGH CONFIDENCE</strong> that the threat actor operating under the persona <strong>Handala</strong> (also known as the <em>Handala Hack Team</em>) is a state-aligned front group operated by **Iran's Ministry of Intelligence and Security (MOIS)**, specifically corresponding to the activity cluster tracked as **Void Manticore** (Storm-0842 / Banished Kitten).</p>
+                        
+                        <p>While Handala presents itself as an independent, pro-Palestinian hacktivist collective, their operational synchronization with Iranian geopolitical objectives, use of bespoke destructive wipers (e.g., BiBi, Cl, Hamsa), high-level coordination with other MOIS groups (e.g., Scarred Manticore), and recent shift to sophisticated, non-monetized "Living-off-the-Cloud" (LotL) remote-wipe capabilities (such as the Intune compromise at Stryker in March 2026) are highly inconsistent with grassroots hacktivism. The group’s primary objective is not financial gain or simple defacement, but rather psychological warfare, data destruction, and reputational damage to Israeli and Western interests.</p>
+                        
+                        <p>This report documents Handala's operational workflow, maps TTPs to the MITRE ATT&CK matrix, provides a Diamond Model representation, dissects key incidents (the July 2024 CrowdStrike Phishing Wiper campaign and the March 2026 Stryker Corporation Intune compromise), and conducts an Analysis of Competing Hypotheses (ACH) to justify this state-nexus attribution call. These findings serve to warn corporate defenders that Handala is a highly capable state-nexus adversary, requiring hardened identity management controls, particularly for cloud endpoints and device management servers.</p>
+                    </div>
+                    
+                    <div class="alert-box danger">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <div class="alert-text">
+                            <h4>Critical Security Advisory</h4>
+                            <p>Handala's evolution to identity-centric "Living-off-the-Cloud" (LotL) attacks represents a critical threat. By targeting Microsoft Intune or Entra ID Global Administrators, the group can trigger mass factory resets on physical hardware without dropping traditional malware. Hardening cloud identity planes with FIDO2 MFA and Privileged Identity Management (PIM) is an urgent priority.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 2: ATTRIBUTION & ACH
+                 ========================================== -->
+            <section id="panel-attribution" class="view-panel">
+                <div class="card report-section">
+                    <h2>Attribution & Persona Analysis</h2>
+                    <p class="text-block">Handala operates as a classic <strong>"faketivist" front</strong>. The group emerged in December 2023, adopting pro-Palestinian symbolism to mask state-directed cyber operations. Microsoft, SentinelOne, and Check Point track Handala as the cyber unit **Void Manticore** (Storm-0842, Banished Kitten). Handala's activities are tightly integrated with the broader Iranian intelligence apparatus, frequently collaborating with **Scarred Manticore** (Storm-0861), which serves as the primary penetration team before handing off network control to Handala for exfiltration, wiper deployment, or administrative wipes.</p>
+                </div>
+                
+                <div class="ach-matrix-container">
+                    <div class="card-title-bar">
+                        <h3>Analysis of Competing Hypotheses (ACH)</h3>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">Adjust weights and ratings to evaluate inconsistency scores</span>
+                    </div>
+                    
+                    <div class="ach-table-wrapper">
+                        <table class="ach-table" id="ach-matrix-table">
+                            <thead>
+                                <tr>
+                                    <th class="evidence-header">Collected Evidence / Indicator (E)</th>
+                                    <th class="weight-header">Weight</th>
+                                    <th class="hypothesis-header">H1: Grassroots Hacktivists</th>
+                                    <th class="hypothesis-header favored">H2: Iranian MOIS Front</th>
+                                    <th class="hypothesis-header">H3: Third-Party False Flag</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-evidence-id="ev-tradecraft">
+                                    <td><strong>1. Advanced Enterprise Tradecraft:</strong> Global Admin hijacking and multi-region remote device wipes via Microsoft Intune (e.g. Stryker Corp).</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="tradecraft">
+                                            <option value="1.5" selected>High (1.5)</option>
+                                            <option value="1.0">Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-ii" data-rate="II">II</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-i" data-rate="I">I</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr data-evidence-id="ev-handoff">
+                                    <td><strong>2. Scarred Manticore Handoffs:</strong> Forensic documentation of intrusion sessions handed off from MOIS-linked Storm-0861.</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="handoff">
+                                            <option value="1.5" selected>High (1.5)</option>
+                                            <option value="1.0">Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-ii" data-rate="II">II</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-ii" data-rate="II">II</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-evidence-id="ev-geopolitics">
+                                    <td><strong>3. Geopolitical Synchronization:</strong> Attacks and leak drops strictly aligned with Iranian state defensive/offensive schedules.</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="geopolitics">
+                                            <option value="1.5">High (1.5)</option>
+                                            <option value="1.0" selected>Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-evidence-id="ev-wipers">
+                                    <td><strong>4. Custom Wiper Repositories:</strong> Bespoke wipers (BiBi, Cl, Hamsa) sharing code signatures with MOIS tools.</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="wipers">
+                                            <option value="1.5" selected>High (1.5)</option>
+                                            <option value="1.0">Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-ii" data-rate="II">II</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-i" data-rate="I">I</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr data-evidence-id="ev-network">
+                                    <td><strong>5. MOIS IP Subnet Match:</strong> C2 and NetBird overlays hosted within known MOIS networks (`185.190.140[.]0/24`).</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="network">
+                                            <option value="1.5" selected>High (1.5)</option>
+                                            <option value="1.0">Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-ii" data-rate="II">II</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-i" data-rate="I">I</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr data-evidence-id="ev-psyops">
+                                    <td><strong>6. Information Ops & Claim Inflation:</strong> Extensive use of Telegram for narrative warfare and highly inflated target metrics.</td>
+                                    <td>
+                                        <select class="weight-select" data-weight-field="psyops">
+                                            <option value="1.5">High (1.5)</option>
+                                            <option value="1.0" selected>Medium (1.0)</option>
+                                            <option value="0.5">Low (0.5)</option>
+                                        </select>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h1">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell favored-cell" data-hyp="h2">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                    <td class="ach-cell" data-hyp="h3">
+                                        <div class="rating-btn-group">
+                                            <button class="rating-btn active-c" data-rate="C">C</button>
+                                            <button class="rating-btn" data-rate="N">N</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- CONSISTENCY SCORE ROW -->
+                                <tr class="consistency-score-row">
+                                    <td colspan="2">Calculated Inconsistency Index (Weighted)*</td>
+                                    <td class="score-cell negative" id="ach-score-h1">-9.0</td>
+                                    <td class="score-cell positive favored-cell" id="ach-score-h2">0.0</td>
+                                    <td class="score-cell negative" id="ach-score-h3">-6.0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ach-footnote">
+                        * <strong>Inconsistency Score Calculation:</strong> Derived by summing the product of evidence weights and inconsistency ratings (I = -1.0, II = -2.0, C = 0.0, N = 0.0). A higher negative score indicates that the hypothesis is heavily contradicted by the physical and forensic evidence. <strong>H2 (Iranian MOIS Front)</strong> remains the only hypothesis fully consistent (Score: 0.0) with all collected data points.
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 3: OPERATIONAL WORKFLOW
+                 ========================================== -->
+            <section id="panel-workflow" class="view-panel">
+                <div class="card report-section">
+                    <h2>Interactive Attack Lifecycle Workflow</h2>
+                    <p class="text-block">Handala's operations follow a structured lifecycle. Use the scrubber below to walkthrough the operational phases, highlighting their transition from traditional malware deployment to identity-based system wiping.</p>
+                </div>
+                
+                <!-- Interactive Workflow component -->
+                <div class="video-scrub-component">
+                    <div class="scrub-screen-area">
+                        <!-- Step 1: Initial Access -->
+                        <div class="simulated-graphics screen-frame active" id="sim-frame-1">
+                            <div class="frame-header-area">
+                                <span class="phase-title">Phase 1: Initial Access</span>
+                                <span class="phase-id">T1566 / T1190</span>
+                            </div>
+                            <div class="frame-content-area">
+                                <div class="workflow-card-graphics">
+                                    <div class="target-node internet">Internet</div>
+                                    <div class="network-arrow">⚡ Phishing Email / VPN Exploit</div>
+                                    <div class="target-node edge">Edge Gateway / Client Mailbox</div>
+                                </div>
+                                <div class="workflow-text">
+                                    <p>The adversary gains initial ingress through two primary vectors: targeted spearphishing attachments (like the NSIS-wrapped CrowdStrike phishing campaign in July 2024) or by exploiting public-facing VPN devices. In several operations, initial access sessions are established by **Scarred Manticore (Storm-0861)** and subsequently handed over to Void Manticore/Handala.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Lateral Movement -->
+                        <div class="simulated-graphics screen-frame" id="sim-frame-2">
+                            <div class="frame-header-area">
+                                <span class="phase-title">Phase 2: Privilege Escalation & Lateral Movement</span>
+                                <span class="phase-id">T1021 / T1078 / T1482</span>
+                            </div>
+                            <div class="frame-content-area">
+                                <div class="workflow-card-graphics">
+                                    <div class="target-node edge">Compromised Host</div>
+                                    <div class="network-arrow">RDP / ADRecon / comsvcs.dll</div>
+                                    <div class="target-node domain-controller">Active Directory & Azure AD</div>
+                                </div>
+                                <div class="workflow-text">
+                                    <p>Once inside, the actors execute domain trust discovery via **ADRecon** to map Active Directory hierarchies. They dump credentials from memory via LSASS manipulation and move laterally utilizing Remote Desktop Protocol (RDP). The final goal is the compromise of high-privileged credentials, specifically **Global Administrator** access inside the Entra ID/Azure AD cloud tenant.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Exfiltration -->
+                        <div class="simulated-graphics screen-frame" id="sim-frame-3">
+                            <div class="frame-header-area">
+                                <span class="phase-title">Phase 3: Data Harvesting & Exfiltration</span>
+                                <span class="phase-id">T1560 / T1041</span>
+                            </div>
+                            <div class="frame-content-area">
+                                <div class="workflow-card-graphics">
+                                    <div class="target-node domain-controller">Corporate Files & Databases</div>
+                                    <div class="network-arrow">Archive & Exfiltrate (Rclone / NetBird)</div>
+                                    <div class="target-node exfil-server">Handala C2 Staging Node</div>
+                                </div>
+                                <div class="workflow-text">
+                                    <p>Before launching destructive payloads, the adversary initiates comprehensive collection. Target databases, system backups, and confidential user emails are identified, archived, and exfiltrated to Handala-controlled staging servers. This data serves as the ammunition for subsequent psychological and reputational operations on public leak sites.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Destruction -->
+                        <div class="simulated-graphics screen-frame" id="sim-frame-4">
+                            <div class="frame-header-area">
+                                <span class="phase-title">Phase 4: Multi-Vector Destruction</span>
+                                <span class="phase-id">T1485 / T1529</span>
+                            </div>
+                            <div class="frame-content-area">
+                                <div class="workflow-split-graphics">
+                                    <div class="split-branch">
+                                        <div class="branch-title">Vector A: Malware-Centric</div>
+                                        <div class="branch-desc">Deploy custom wipers (BiBi / Cl) to overwrite physical disks.</div>
+                                    </div>
+                                    <div class="split-branch">
+                                        <div class="branch-title">Vector B: Cloud-Centric (LotL)</div>
+                                        <div class="branch-desc">Abuse Microsoft Intune remote-wipe API to reset thousands of endpoints.</div>
+                                    </div>
+                                </div>
+                                <div class="workflow-text">
+                                    <p>Destruction is executed via two pathways. **Vector A** utilizes custom wiper executables (like the BiBi wiper which appends `.BiBi` to files). **Vector B** utilizes Living-off-the-Cloud (LotL) tactics; the actor logs into the **Microsoft Intune** console using hijacked Global Admin credentials and issues remote factory resets, bricking laptops and mobile devices without running malware.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Amplification -->
+                        <div class="simulated-graphics screen-frame" id="sim-frame-5">
+                            <div class="frame-header-area">
+                                <span class="phase-title">Phase 5: Telegram Amplification & PsyOps</span>
+                                <span class="phase-id">T1491 / T1102</span>
+                            </div>
+                            <div class="frame-content-area">
+                                <div class="workflow-card-graphics">
+                                    <div class="target-node exfil-server">Exfiltrated Datasets</div>
+                                    <div class="network-arrow">Broadcast & Doxx</div>
+                                    <div class="target-node telegram-channel">@Handala_Hack Telegram Channel</div>
+                                </div>
+                                <div class="workflow-text">
+                                    <p>The operation culminates in public information warfare. Handala leaks portions of the exfiltrated datasets on Telegram, defaces public-facing websites, and posts screenshots of their active wiping progress. They systematically inflate their metrics (e.g., claiming 200,000 corporate devices wiped at Stryker) to amplify fear and humiliate the target organization.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="scrub-controls">
+                        <div class="scrub-slider-container">
+                            <input type="range" min="1" max="5" value="1" class="scrub-slider" id="video-scrubber">
+                            <span class="time-badge" id="scrubber-time-badge">Phase 1</span>
+                        </div>
+                        <div class="timeline-markers">
+                            <span class="marker-label active" data-frame="1">1. Access</span>
+                            <span class="marker-label" data-frame="2">2. Lateral</span>
+                            <span class="marker-label" data-frame="3">3. Exfil</span>
+                            <span class="marker-label" data-frame="4">4. Destruct</span>
+                            <span class="marker-label" data-frame="5">5. PsyOps</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 4: MITRE ATT&CK MAP
+                 ========================================== -->
+            <section id="panel-mitre" class="view-panel">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <h2>MITRE ATT&CK Mapping Database</h2>
+                        <input type="text" class="table-search" placeholder="Filter techniques..." id="mitre-search-input">
+                    </div>
+                    
+                    <table class="ioc-table" id="mitre-database-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">ATT&CK Tactic</th>
+                                <th style="width: 25%;">Technique Name</th>
+                                <th style="width: 15%;">ID</th>
+                                <th style="width: 40%;">Specific Observed Behavior / Forensic Evidence</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Initial Access</strong></td>
+                                <td>Spearphishing Attachment</td>
+                                <td><code>T1566.001</code></td>
+                                <td>Distributed malicious <code>update.zip</code> files containing wipers posing as CrowdStrike fixes in July 2024.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Initial Access</strong></td>
+                                <td>Exploit Public-Facing Application</td>
+                                <td><code>T1190</code></td>
+                                <td>Exploits vulnerabilities in public-facing VPN gateways to gain initial corporate foothold.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Execution</strong></td>
+                                <td>Command and Scripting Interpreter</td>
+                                <td><code>T1059</code></td>
+                                <td>Extensive use of PowerShell and obfuscated Batch files to disable defenses and execute wiper Binaries.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Execution</strong></td>
+                                <td>User Execution</td>
+                                <td><code>T1204</code></td>
+                                <td>Relies on administrators executing the fake CrowdStrike hotfix attachments.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Persistence</strong></td>
+                                <td>Domain Account</td>
+                                <td><code>T1078.002</code></td>
+                                <td>Compromises and maintains Global Administrator access in Entra ID/Azure AD tenants.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Persistence</strong></td>
+                                <td>Group Policy Modification</td>
+                                <td><code>T1484.001</code></td>
+                                <td>Deploys Group Policy logon scripts to automate wiper propagation across domain endpoints.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Defense Evasion</strong></td>
+                                <td>Impair Defenses</td>
+                                <td><code>T1562</code></td>
+                                <td>Disables local Microsoft Defender processes and clears Event logs prior to running destruction scripts.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Defense Evasion</strong></td>
+                                <td>Masquerading</td>
+                                <td><code>T1036</code></td>
+                                <td>Registers typo-squatted domains (e.g. <code>crowdstrike[.]com[.]vc</code>) to bypass user security awareness.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Defense Evasion</strong></td>
+                                <td>Obfuscated Files or Information</td>
+                                <td><code>T1027</code></td>
+                                <td>Uses AutoIt compilers and NSIS packages to hide the wiper executable from static antivirus engines.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discovery</strong></td>
+                                <td>System Information Discovery</td>
+                                <td><code>T1082</code></td>
+                                <td>Wiper query queries target hostname, local IP, OS configuration, and local workgroups.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Discovery</strong></td>
+                                <td>Domain Trust Discovery</td>
+                                <td><code>T1482</code></td>
+                                <td>Utilizes <strong>ADRecon</strong> tool to discover domain maps and active trust structures.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lateral Movement</strong></td>
+                                <td>Remote Services: RDP</td>
+                                <td><code>T1021.001</code></td>
+                                <td>Moves laterally across servers utilizing Remote Desktop Protocol (RDP).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Command & Control</strong></td>
+                                <td>Protocol Tunneling</td>
+                                <td><code>T1572</code></td>
+                                <td>Uses custom-configured **NetBird** clients to establish encrypted overlays and tunnel C2 past firewalls.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Command & Control</strong></td>
+                                <td>Web Service</td>
+                                <td><code>T1102</code></td>
+                                <td>Integrates Telegram Bot API parameters in wiper binaries to report execution metrics back to the actors.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Impact</strong></td>
+                                <td>Data Wiped</td>
+                                <td><code>T1485</code></td>
+                                <td>Deploys **BiBi Wiper** and **Cl Wiper** to overwrite partition tables; abuses Microsoft Intune remote-wipe controls.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Impact</strong></td>
+                                <td>Defacement</td>
+                                <td><code>T1491</code></td>
+                                <td>Defaces target websites with anti-Israel images, threatening messages, and Telegram links.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 5: DIAMOND MODEL
+                 ========================================== -->
+            <section id="panel-diamond" class="view-panel">
+                <div class="card report-section">
+                    <h2>The Diamond Model of Intrusion Analysis</h2>
+                    <p class="text-block">The Diamond Model maps the relationship between four core features of Handala's threat operations. Click on any vertex node below to display the detailed analysis and evidence supporting that aspect of the threat relationship.</p>
+                </div>
+                
+                <div class="diamond-layout-grid">
+                    <!-- Left: Interactive Diamond Visual -->
+                    <div class="diamond-visual-card">
+                        <div class="diamond-container" id="diamond-model-container">
+                            <svg class="diamond-svg-layer" id="diamond-svg"></svg>
+                            
+                            <!-- Adversary Node (Top) -->
+                            <div class="diamond-node active" style="top: 20px; left: 160px;" id="node-adversary" data-node="adversary">
+                                <div class="node-dot font-icon">👤</div>
+                                <span>Adversary</span>
+                            </div>
+                            
+                            <!-- Capability Node (Left) -->
+                            <div class="diamond-node" style="top: 150px; left: 20px;" id="node-capability" data-node="capability">
+                                <div class="node-dot font-icon">🛠️</div>
+                                <span>Capability</span>
+                            </div>
+                            
+                            <!-- Infrastructure Node (Right) -->
+                            <div class="diamond-node" style="top: 150px; left: 300px;" id="node-infrastructure" data-node="infrastructure">
+                                <div class="node-dot font-icon">🌐</div>
+                                <span>Infrastructure</span>
+                            </div>
+                            
+                            <!-- Victim Node (Bottom) -->
+                            <div class="diamond-node" style="top: 280px; left: 160px;" id="node-victim" data-node="victim">
+                                <div class="node-dot font-icon">🎯</div>
+                                <span>Victim</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Info Panel displaying active node content -->
+                    <div class="diamond-details-card">
+                        <div class="card-title-bar">
+                            <h3 id="diamond-detail-title">Adversary Profile</h3>
+                        </div>
+                        <div class="card-content" id="diamond-detail-content">
+                            <p><strong>Threat Actor Cluster:</strong> Void Manticore (Storm-0842, Banished Kitten)</p>
+                            <p><strong>State Affiliation:</strong> Iranian Ministry of Intelligence and Security (MOIS).</p>
+                            <p><strong>Operational Profile:</strong> Void Manticore operates the "Handala" persona as a pro-Palestinian hacktivist front. They coordinate their operations with **Scarred Manticore (Storm-0861)**, an MOIS-linked penetration team. This structural handoff enables professional state-level intrusions to be launched and publicized under the cover of a decentralized hacktivist movement.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 6: INCIDENT CASE STUDIES
+                 ========================================== -->
+            <section id="panel-incidents" class="view-panel">
+                <div class="incidents-grid">
+                    
+                    <!-- Case Study 1: CrowdStrike -->
+                    <div class="card case-study-card">
+                        <div class="case-header">
+                            <span class="case-badge badge-red">Wiper Payload</span>
+                            <h3>July 2024: CrowdStrike Outage Phishing Wiper Campaign</h3>
+                        </div>
+                        <table class="case-details-table">
+                            <tr>
+                                <td><strong>Target Sector</strong></td>
+                                <td>Israeli private-sector entities & IT organizations.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Attack Vector</strong></td>
+                                <td>Spearphishing emails offering a hotfix for the CrowdStrike boot loops.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Technical Execution</strong></td>
+                                <td>Phishing emails linked to a typo-squatted site distributing `update.zip` containing an NSIS installer. Once run, the payload executes a custom wiper, disabling local Defender and dropping `OpenFileFinder.dll` to find and overwrite directories.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Validation</strong></td>
+                                <td><strong>Fully Corroborated:</strong> Independent threat analysis reports from Splunk, Cisco Talos, and Trellix confirmed active infections and analyzed wiper libraries.</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Case Study 2: Stryker -->
+                    <div class="card case-study-card">
+                        <div class="case-header">
+                            <span class="case-badge badge-yellow">Identity & LOTL</span>
+                            <h3>March 2026: Stryker Corporation Microsoft Intune Abuse</h3>
+                        </div>
+                        <table class="case-details-table">
+                            <tr>
+                                <td><strong>Target Sector</strong></td>
+                                <td>Global medical technology corporation (Stryker Corp).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Attack Vector</strong></td>
+                                <td>Compromised Global Administrator credentials (likely via AiTM session theft).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Technical Execution</strong></td>
+                                <td>No malware deployed. Actors logged into the corporate <strong>Microsoft Intune</strong> portal and executed native API calls to perform remote wipes (Factory Resets) on thousands of devices.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Validation</strong></td>
+                                <td><strong>Corroborated but Inflated:</strong> Identity breach and device wipes confirmed by Palo Alto Networks and Fortiguard. However, Handala's claim of 200,000 devices wiped was highly exaggerated; physical impact was restricted to several thousand endpoints.</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ==========================================
+                 VIEW 7: IOC DATABASE
+                 ========================================== -->
+            <section id="panel-iocs" class="view-panel">
+                <div class="table-container">
+                    <div class="table-header-bar">
+                        <h2>Indicator Database (RP-2026-0619-Handala)</h2>
+                        <input type="text" class="table-search" placeholder="Search indicators..." id="ioc-search-input">
+                    </div>
+                    
+                    <table class="ioc-table" id="ioc-database-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;">Indicator Type</th>
+                                <th style="width: 45%;">Value (Defanged)</th>
+                                <th style="width: 30%;">Context / Associated Campaign</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Domain</strong></td>
+                                <td><code>crowdstrike[.]com[.]vc</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>Phishing domain posing as CrowdStrike support (July 2024).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Hash (SHA-256)</strong></td>
+                                <td><code>96dec6e07229201a02f538310815c695cf6147c548ff1c6a0def2fe38f3dcbc8</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>`update.zip` containing NSIS installer and wiper executable.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Hash (SHA-256)</strong></td>
+                                <td><code>8316065c4536384611cbe7b6ba6a5f12f10db09949e66cb608c92ae8b69e4d67</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>`OpenFileFinder.dll` dropped file search helper utility.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>File Hash (SHA-256)</strong></td>
+                                <td><code>19001dd441e50233d7f0addb4fcd405a70ac3d5e310ff20b331d6f1a29c634f0</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>Spearphishing notification PDF (CrowdStrike Outage Hook).</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP Address</strong></td>
+                                <td><code>185[.]190[.]140[.]182</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>Historical NetBird tunnel exit relay and C2 configuration node.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IP Address</strong></td>
+                                <td><code>185[.]190[.]140[.]240</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>Staging host IP linked to Handala C2 domain records.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Telegram Channel</strong></td>
+                                <td><code>@Handala_Hack</code> <span class="defanged-indicator">Defanged</span></td>
+                                <td>Threat actor public Telegram distribution channel.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <!-- Script imports -->
+    <script src="app.js"></script>
+</body>
+</html>
